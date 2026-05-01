@@ -69,6 +69,14 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    'avatar-info': AvatarInfo;
+    'contact-info': ContactInfo;
+    'experiences-list': ExperiencesList;
+    experiences: Experience;
+    'home-info': HomeInfo;
+    'project-details': ProjectDetail;
+    projects: Project;
+    tools: Tool;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +86,14 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    'avatar-info': AvatarInfoSelect<false> | AvatarInfoSelect<true>;
+    'contact-info': ContactInfoSelect<false> | ContactInfoSelect<true>;
+    'experiences-list': ExperiencesListSelect<false> | ExperiencesListSelect<true>;
+    experiences: ExperiencesSelect<false> | ExperiencesSelect<true>;
+    'home-info': HomeInfoSelect<false> | HomeInfoSelect<true>;
+    'project-details': ProjectDetailsSelect<false> | ProjectDetailsSelect<true>;
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    tools: ToolsSelect<false> | ToolsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -163,6 +179,584 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "avatar-info".
+ */
+export interface AvatarInfo {
+  id: string;
+  username: string;
+  location: string;
+  buttonInfo?: string | null;
+  /**
+   * Avatar image optimized for dark backgrounds.
+   */
+  imageDark: string | Media;
+  /**
+   * Avatar image optimized for light backgrounds.
+   */
+  imageLight: string | Media;
+  /**
+   * Ordered list of roles or taglines displayed under your name. Example: ["chemical engineer","developer"]
+   */
+  designations: string[];
+  /**
+   * External profile and contact links shown in the avatar card.
+   */
+  links?:
+    | {
+        label: string;
+        href: string;
+        icon: 'github' | 'linkedin' | 'mail' | 'resume';
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-info".
+ */
+export interface ContactInfo {
+  id: string;
+  mainlabel: string;
+  label: string;
+  connect?:
+    | {
+        title: string;
+        /**
+         * Front-end maps this key to the matching React icon component.
+         */
+        iconKey: 'GitHubIcon' | 'LinkedInIcon' | 'WhatsappIcon' | 'TelegramIcon' | 'MailIcon' | 'ResumeIcon';
+        details: string;
+        href: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Timeline entries powering experience pages and detail views.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "experiences-list".
+ */
+export interface ExperiencesList {
+  id: string;
+  name: string;
+  /**
+   * Stable identifier consumed by the frontend route builder.
+   */
+  slug: string;
+  /**
+   * Image shown on cards and detail hero sections.
+   */
+  companyImage: string | Media;
+  companyWebsite: string;
+  /**
+   * Editors tick this once they confirm the official site is reachable.
+   */
+  companyWebsiteLive: boolean;
+  /**
+   * Year working
+   */
+  yearRange: string;
+  /**
+   * Position in Company
+   */
+  position: string;
+  /**
+   * Overview Title
+   */
+  overviewTitle: string;
+  /**
+   * Overview what the company does
+   */
+  overview: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Role Header
+   */
+  roleHeader: string;
+  /**
+   * Role at the company
+   */
+  role: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Projects Header
+   */
+  projectsHeader: string;
+  /**
+   * Optional set of related projects
+   */
+  projects?:
+    | {
+        title: string;
+        href: string;
+        /**
+         * Matches a frontend icon component name, e.g., AskMyGovIcon.
+         */
+        iconKey: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Key Achievements Header Title
+   */
+  keyAchievementsHeader: string;
+  /**
+   * Each entry renders as a section with its own rich text details.
+   */
+  keyAchievements: {
+    heading: string;
+    /**
+     * Use paragraphs or bullet lists to describe contributions.
+     */
+    content: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+    id?: string | null;
+  }[];
+  /**
+   * Impact Header Title
+   */
+  impactHeader: string;
+  /**
+   * Each entry renders as a section with its own rich text details.
+   */
+  impact: {
+    heading: string;
+    /**
+     * Use paragraphs or bullet lists to describe impact.
+     */
+    content: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+    id?: string | null;
+  }[];
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Timeline entries powering experience pages and detail views.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "experiences".
+ */
+export interface Experience {
+  id: string;
+  name: string;
+  /**
+   * Short description shown on the primary experience list.
+   */
+  details: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  yearRange: string;
+  position: string;
+  ctaHref: string;
+  /**
+   * Image of the Company
+   */
+  companyImage: string | Media;
+  /**
+   * Optional set of related projects (AskMyGov, Directory, etc.).
+   */
+  projects?:
+    | {
+        title: string;
+        href: string;
+        /**
+         * Matches a frontend icon component name, e.g., AskMyGovIcon.
+         */
+        iconKey: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Hero copy, highlights, and contact links powering the home page.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-info".
+ */
+export interface HomeInfo {
+  id: string;
+  homeMainInfo: string;
+  /**
+   * Hook For Title
+   */
+  titleHook: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Supporting paragraph shown under the hero headline.
+   */
+  descHook: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Logos, proficiencies, and categories for the highlight grid.
+   */
+  techStack?:
+    | {
+        name: string;
+        /**
+         * Select a Media item (PNG/SVG) for this logo.
+         */
+        logo: string | Media;
+        id?: string | null;
+      }[]
+    | null;
+  education?:
+    | {
+        title: string;
+        major: string;
+        year: string;
+        name: string;
+        logo: string | Media;
+        id?: string | null;
+      }[]
+    | null;
+  certificate?:
+    | {
+        title: string;
+        issuer: string;
+        year: string;
+        credID?: string | null;
+        logo: string | Media;
+        id?: string | null;
+      }[]
+    | null;
+  sayAboutMe?:
+    | {
+        name: string;
+        position: string;
+        company: string;
+        comments: string;
+        avatarImage: string | Media;
+        id?: string | null;
+      }[]
+    | null;
+  gallery?:
+    | {
+        name: string;
+        /**
+         * Link each gallery entry to a managed Media asset instead of hardcoded paths.
+         */
+        image: string | Media;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Long-form write-ups used by the detailed project pages.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "project-details".
+ */
+export interface ProjectDetail {
+  id: string;
+  title: string;
+  /**
+   * Stable identifier consumed by the frontend route builder.
+   */
+  slug: string;
+  /**
+   * Lower numbers surface first when listing detail pages.
+   */
+  priority?: number | null;
+  hero?: {
+    image?: (string | null) | Media;
+  };
+  /**
+   * Opening paragraph that appears directly under the hero.
+   */
+  overview: string;
+  problemStatement?: {
+    /**
+     * header for Issues
+     */
+    issuesHeader?: string | null;
+    /**
+     * Rich Text for Issue description
+     */
+    issueRichText?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    /**
+     * header for Solutions
+     */
+    solutionsHeader?: string | null;
+    /**
+     * Rich Text for Solutions
+     */
+    solutionsRichText?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+  };
+  links?: {
+    website?: {
+      title?: string | null;
+      url?: string | null;
+      /**
+       * Editors tick this once they confirm the official site is reachable.
+       */
+      verified?: boolean | null;
+    };
+    githubs?:
+      | {
+          title?: string | null;
+          url?: string | null;
+          /**
+           * Editors tick this once they confirm the Github repository is reachable.
+           */
+          verified?: boolean | null;
+          id?: string | null;
+        }[]
+      | null;
+    others?:
+      | {
+          title?: string | null;
+          url?: string | null;
+          /**
+           * Editors tick this once they confirm the Other Link is reachable.
+           */
+          verified?: boolean | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Mirror the grouped tech stacks exported inside src/data/ProjectInfo.tsx.
+   */
+  techstack?:
+    | {
+        /**
+         * Slug consumed by the frontend (e.g., main, fenbe, devops).
+         */
+        key: string;
+        title: string;
+        items?:
+          | {
+              name: string;
+              image?: (string | null) | Media;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  sections?:
+    | {
+        /**
+         * Machine-friendly identifier, e.g., FrontendDevelopment.
+         */
+        key: string;
+        title: string;
+        items?:
+          | {
+              heading: string;
+              details?:
+                | {
+                    line: {
+                      root: {
+                        type: string;
+                        children: {
+                          type: any;
+                          version: number;
+                          [k: string]: unknown;
+                        }[];
+                        direction: ('ltr' | 'rtl') | null;
+                        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                        indent: number;
+                        version: number;
+                      };
+                      [k: string]: unknown;
+                    };
+                    id?: string | null;
+                  }[]
+                | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Personal and collaboration projects powering the portfolio grids.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: string;
+  title: string;
+  /**
+   * Controls grouping on the frontend.
+   */
+  category: 'personal' | 'collaboration';
+  path: string;
+  description: string;
+  /**
+   * Optional longer copy for hero or detail sections.
+   */
+  shortDescription?: string | null;
+  image: string | Media;
+  gitHubUrl?: string | null;
+  previewUrl?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Tech stack items powering the Tools grid.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tools".
+ */
+export interface Tool {
+  id: string;
+  name: string;
+  /**
+   * Matches the `type` property consumed on the frontend.
+   */
+  category:
+    | 'languages'
+    | 'fullstack'
+    | 'frontend'
+    | 'backend'
+    | 'database'
+    | 'devops'
+    | 'management'
+    | 'others'
+    | 'testing';
+  /**
+   * Upload an icon when not serving from a static /public path.
+   */
+  icon?: (string | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -192,6 +786,38 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'avatar-info';
+        value: string | AvatarInfo;
+      } | null)
+    | ({
+        relationTo: 'contact-info';
+        value: string | ContactInfo;
+      } | null)
+    | ({
+        relationTo: 'experiences-list';
+        value: string | ExperiencesList;
+      } | null)
+    | ({
+        relationTo: 'experiences';
+        value: string | Experience;
+      } | null)
+    | ({
+        relationTo: 'home-info';
+        value: string | HomeInfo;
+      } | null)
+    | ({
+        relationTo: 'project-details';
+        value: string | ProjectDetail;
+      } | null)
+    | ({
+        relationTo: 'projects';
+        value: string | Project;
+      } | null)
+    | ({
+        relationTo: 'tools';
+        value: string | Tool;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -274,6 +900,280 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "avatar-info_select".
+ */
+export interface AvatarInfoSelect<T extends boolean = true> {
+  username?: T;
+  location?: T;
+  buttonInfo?: T;
+  imageDark?: T;
+  imageLight?: T;
+  designations?: T;
+  links?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        icon?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-info_select".
+ */
+export interface ContactInfoSelect<T extends boolean = true> {
+  mainlabel?: T;
+  label?: T;
+  connect?:
+    | T
+    | {
+        title?: T;
+        iconKey?: T;
+        details?: T;
+        href?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "experiences-list_select".
+ */
+export interface ExperiencesListSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  companyImage?: T;
+  companyWebsite?: T;
+  companyWebsiteLive?: T;
+  yearRange?: T;
+  position?: T;
+  overviewTitle?: T;
+  overview?: T;
+  roleHeader?: T;
+  role?: T;
+  projectsHeader?: T;
+  projects?:
+    | T
+    | {
+        title?: T;
+        href?: T;
+        iconKey?: T;
+        id?: T;
+      };
+  keyAchievementsHeader?: T;
+  keyAchievements?:
+    | T
+    | {
+        heading?: T;
+        content?: T;
+        id?: T;
+      };
+  impactHeader?: T;
+  impact?:
+    | T
+    | {
+        heading?: T;
+        content?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "experiences_select".
+ */
+export interface ExperiencesSelect<T extends boolean = true> {
+  name?: T;
+  details?: T;
+  yearRange?: T;
+  position?: T;
+  ctaHref?: T;
+  companyImage?: T;
+  projects?:
+    | T
+    | {
+        title?: T;
+        href?: T;
+        iconKey?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-info_select".
+ */
+export interface HomeInfoSelect<T extends boolean = true> {
+  homeMainInfo?: T;
+  titleHook?: T;
+  descHook?: T;
+  techStack?:
+    | T
+    | {
+        name?: T;
+        logo?: T;
+        id?: T;
+      };
+  education?:
+    | T
+    | {
+        title?: T;
+        major?: T;
+        year?: T;
+        name?: T;
+        logo?: T;
+        id?: T;
+      };
+  certificate?:
+    | T
+    | {
+        title?: T;
+        issuer?: T;
+        year?: T;
+        credID?: T;
+        logo?: T;
+        id?: T;
+      };
+  sayAboutMe?:
+    | T
+    | {
+        name?: T;
+        position?: T;
+        company?: T;
+        comments?: T;
+        avatarImage?: T;
+        id?: T;
+      };
+  gallery?:
+    | T
+    | {
+        name?: T;
+        image?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "project-details_select".
+ */
+export interface ProjectDetailsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  priority?: T;
+  hero?:
+    | T
+    | {
+        image?: T;
+      };
+  overview?: T;
+  problemStatement?:
+    | T
+    | {
+        issuesHeader?: T;
+        issueRichText?: T;
+        solutionsHeader?: T;
+        solutionsRichText?: T;
+      };
+  links?:
+    | T
+    | {
+        website?:
+          | T
+          | {
+              title?: T;
+              url?: T;
+              verified?: T;
+            };
+        githubs?:
+          | T
+          | {
+              title?: T;
+              url?: T;
+              verified?: T;
+              id?: T;
+            };
+        others?:
+          | T
+          | {
+              title?: T;
+              url?: T;
+              verified?: T;
+              id?: T;
+            };
+      };
+  techstack?:
+    | T
+    | {
+        key?: T;
+        title?: T;
+        items?:
+          | T
+          | {
+              name?: T;
+              image?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  sections?:
+    | T
+    | {
+        key?: T;
+        title?: T;
+        items?:
+          | T
+          | {
+              heading?: T;
+              details?:
+                | T
+                | {
+                    line?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
+  title?: T;
+  category?: T;
+  path?: T;
+  description?: T;
+  shortDescription?: T;
+  image?: T;
+  gitHubUrl?: T;
+  previewUrl?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tools_select".
+ */
+export interface ToolsSelect<T extends boolean = true> {
+  name?: T;
+  category?: T;
+  icon?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
