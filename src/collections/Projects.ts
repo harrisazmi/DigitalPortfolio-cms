@@ -7,6 +7,7 @@ export const Projects: CollectionConfig = {
     defaultColumns: ['title', 'category', 'order', 'updatedAt'],
     description: 'Personal and collaboration projects powering the portfolio grids.',
   },
+  defaultSort: 'order',
   fields: [
     {
       name: 'title',
@@ -51,6 +52,13 @@ export const Projects: CollectionConfig = {
       type: 'upload',
       relationTo: 'media',
       required: true,
+    },
+    {
+      name: 'order',
+      type: 'number',
+      admin: {
+        description: 'Controls display order within each category. Lower numbers appear first.',
+      },
     },
     {
       type: 'row',

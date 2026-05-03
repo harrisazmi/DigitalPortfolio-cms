@@ -721,6 +721,10 @@ export interface Project {
    */
   shortDescription?: string | null;
   image: string | Media;
+  /**
+   * Controls display order within each category. Lower numbers appear first.
+   */
+  order?: number | null;
   gitHubUrl?: string | null;
   previewUrl?: string | null;
   updatedAt: string;
@@ -1159,6 +1163,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   description?: T;
   shortDescription?: T;
   image?: T;
+  order?: T;
   gitHubUrl?: T;
   previewUrl?: T;
   updatedAt?: T;
